@@ -5,7 +5,7 @@ import os
 def test_formatted():
     currentpath = os.path.dirname(os.path.abspath(__file__))
     os.chdir(currentpath)
-    os.chdir("/../../")
+    os.chdir("../../")
     buildcommand = "make clean && FC=gfortran make"
     subprocess.run(buildcommand, shell=True)
     reference = "ref.out"
