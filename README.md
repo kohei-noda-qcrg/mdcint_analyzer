@@ -34,3 +34,12 @@ Running this program creates a debug file.
     # Sort and output only all indices are natural numbers from 1 to 10
     ./sort_mdcint -f formatted -p="++++" -r 1 10
     ```
+    
+- get_diff_mdcint checks the differences between two sorted MDCINT files
+  - See get_diff_mdcint --help for more information
+  
+  (e.g.)
+  ```sh
+  # Get difference between the two files (i.e. A - B)
+  ./get_diff_mdcint -f A B --diff
+  ```
