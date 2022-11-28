@@ -29,7 +29,9 @@ def get_args():
     parser.add_argument("-t", "--types", help="MDCINT types to get. range: 1-4. (e.g.) sort_mdcint -t 1 2 => get MDCINT only type 1 and 2", metavar="types", dest="types", nargs="+", type=int, choices=range(1, 5))
     parser.add_argument("-r", "--range", help="-r min max. Specify the range of indices to get (e.g.) sort_mdcint -t -10 10 => Get MDCINT only all indices are in the range from -10 to 10", metavar=("min", "max"), dest="range", nargs=2, type=int)
     parser.add_argument("-p", "--patterns", help='Specify the patterns to get (e.g.) sort_mdcint -p="++++ +-+-" => Get MDCINT only type ++++ and +-+-. + and - mean positive and negative number indices, respectively.', metavar="patterns", dest="patterns", nargs="+", type=str)
-    parser.add_argument("--dup", "--duplicate", help="Check if there are duplicate indices in the output file.", dest="dup", action="store_true")
+    parser.add_argument("--dup", "--duplicate", help="Print duplicate indices in the output file.", dest="dup", action="store_true")
+    parser.add_argument("--ndup", "--no-duplicate", help="Print not duplicated indices in the output file.", dest="ndup", action="store_true")
+    parser.add_argument("--uni", "--unique", help="Print unique indices in the output file.", dest="uni", action="store_true")
     return parser.parse_args()
 
 
@@ -172,7 +174,40 @@ def main():
         for values in mdcint_values_to_sort:
             f.write("\t".join([str(x) for x in values]) + "\n")
 
-    if args.dup:
+    if args.uni:
+        print("Check the unique integrals in the output file: " + args.output)
+        prev_values = ""
+        prev_indices = [10**10, 10**10, 10**10, 10**10]
+        with open(args.output, "r") as f:
+            file_content = f.readlines()
+            for line in file_content:
+                words = line.split()
+                indices = [int(x) for x in words[:4]]
+                if indices != prev_indices:
+                    print(line.strip())
+                prev_indices = indices
+                prev_values = line.strip()
+
+    elif args.ndup:
+        print("Check not duplicated integrals in the output file: " + args.output)
+        is_prev_duplicate = True
+        prev_values = ""
+        prev_indices = [10**10, 10**10, 10**10, 10**10]
+        with open(args.output, "r") as f:
+            file_content = f.readlines()
+            for line in file_content:
+                words = line.split()
+                indices = [int(x) for x in words[:4]]
+                if indices != prev_indices:
+                    if not is_prev_duplicate:
+                        print(prev_values)
+                    is_prev_duplicate = False
+                else:
+                    is_prev_duplicate = True
+                prev_indices = indices
+                prev_values = line.strip()
+
+    elif args.dup:
         print("Check the duplicated integrals in the output file.")
         is_prev_duplicate = False
         prev_values = ""
