@@ -1,6 +1,11 @@
 # MDCINT analyzer
 
 This program provides you utilities to analyze [DIRAC](http://diracprogram.org) MDCINT file.
+# Download
+
+```sh
+git pull https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
+```
 
 # Build
 
