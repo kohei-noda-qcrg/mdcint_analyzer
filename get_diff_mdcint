@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+
+import argparse
+import time
+
+all_start = time.time()
+parser = argparse.ArgumentParser("This program provides the results of a set operation on the values of two MDCINT files. Only one operation can be performed at a time.")
+parser.add_argument("-f", "--files", type=str, required=True, metavar=("A", "B"), dest="files", nargs=2, help="[required] The two MDCINT files to be used.")
+parser.add_argument("--diff", "--get-difference", action="store_true", dest="get_difference", help="Print the get difference between the two files (i.e. A - B)", default=False)
+parser.add_argument("--ins", "--get-intersection", action="store_true", dest="get_intersection", help="Print the get intersection between the two files (i.e. A∩B)", default=False)
+parser.add_argument("--uni", "--get-union", action="store_true", dest="get_union", help="Print the get union between the two files (i.e. A∪B) ", default=False)
+parser.add_argument("--sdiff", "--get-symmetric-difference", action="store_true", dest="get_symmetric_difference", help="Print the get symmetric difference between the two files (i.e. A∆B=(A-B)∪(B-A))", default=False)
+parser.add_argument("--debug", action="store_true", dest="debug", help="Print debug information", default=False)
+args = parser.parse_args()
+
+if not args.get_union and not args.get_intersection and not args.get_difference and not args.get_symmetric_difference:
+    print("No operation specified. You must select one of the folloing options --diff or --uni or --sdiff. Use --help for more information.")
+    exit(1)
+
+if [args.get_union, args.get_intersection, args.get_difference, args.get_symmetric_difference].count(True) > 1:
+    print("Only one operation can be specified. Use --help for more information.")
+    exit(2)
+
+
+def read_file(file):
+    start = time.time()
+    with open(file, "r") as f:
+        lines = f.readlines()
+        values = []
+        for line in lines:
+            if len(line.split()) > 3:
+                try:
+                    int_values = [int(x) for x in line.split()[:4]]
+                    if len(line.split()) > 4:
+                        float_values = [float(x) for x in line.split()[4:]]
+                    else:
+                        float_values = []
+                    values.append(int_values + float_values)
+                except ValueError:
+                    continue
+    end = time.time()
+    if args.debug:
+        print("Read file {} in {} seconds.".format(file, end - start))
+    return values
+
+
+file_A, file_B = args.files[0], args.files[1]
+list_A = read_file(file_A)
+list_B = read_file(file_B)
+
+start = time.time()
+list_A.sort()
+list_B.sort()
+end = time.time()
+if args.debug:
+    print("Sort indices Time taken: {} seconds".format(end - start))
+
+start = time.time()
+list_A_indices = [x[0:4] for x in list_A]
+list_B_indices = [x[0:4] for x in list_B]
+
+tuple_A_indices = map(tuple, list_A_indices)
+tuple_B_indices = map(tuple, list_B_indices)
+end = time.time()
+if args.debug:
+    print("Convert to tuples Time taken: {} seconds".format(end - start))
+
+if args.get_union:
+    start = time.time()
+    get_union = sorted([list(li) for li in set(tuple_A_indices).union(set(tuple_B_indices))])
+    end = time.time()
+    if args.debug:
+        print("Get union Time taken: {} seconds".format(end - start))
+    start = time.time()
+    list_AB = list_A + list_B
+    end = time.time()
+    if args.debug:
+        print("Create list_AB Time taken: {} seconds".format(end - start))
+    start = time.time()
+    list_AB.sort()
+    list_AB_indices = [x[0:4] for x in list_AB]
+    end = time.time()
+    if args.debug:
+        print("Sort list_AB Time taken: {} seconds".format(end - start))
+    idx_ab = 0
+    start = time.time()
+    for v in get_union:
+        idx_ab = list_AB_indices.index(v, idx_ab)
+        print(*list_AB[idx_ab])
+    end = time.time()
+    if args.debug:
+        print("print indices taken: {} seconds".format(end - start))
+
+elif args.get_intersection:
+    get_intersection = sorted([list(li) for li in set(tuple_A_indices).intersection(set(tuple_B_indices))])
+    idx_a = 0
+    for v in get_intersection:
+        idx_a = list_A_indices.index(v, idx_a)
+        print(*list_A[idx_a])
+
+elif args.get_difference:  # A - B
+    get_difference = sorted([list(li) for li in set(tuple_A_indices).difference(set(tuple_B_indices))])
+    idx_a = 0
+    for v in get_difference:
+        idx_a = list_A_indices.index(v, idx_a)
+        print(*list_A[idx_a])
+
+elif args.get_symmetric_difference:  # A∆B=(A-B)∪(B-A)
+    get_symmetric_difference = sorted([list(li) for li in set(tuple_A_indices).symmetric_difference(set(tuple_B_indices))])
+    list_AB = list_A + list_B
+    list_AB.sort()
+    list_AB_indices = [x[0:4] for x in list_AB]
+    idx_ab = 0
+    for v in get_symmetric_difference:
+        idx_ab = list_AB_indices.index(v, idx_ab)
+        print(*list_AB[idx_ab])
+
+all_end = time.time()
+if args.debug:
+    print("Time taken: {} seconds".format(all_end - all_start))

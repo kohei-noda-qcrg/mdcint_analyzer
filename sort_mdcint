@@ -24,16 +24,18 @@ import argparse
 
 def get_args():
     parser = argparse.ArgumentParser(description="This program sorts the formatted MDCINT file.")
-    parser.add_argument("-f", "--file", help='Specify a file to sort. This file must be a formatted MDCINT. (default: file named "debug" in the current directory)', metavar="file", dest="file", type=str)
+    parser.add_argument("-i", "--input", help='Specify a file to sort. This file must be a formatted MDCINT. (default: file named "debug" in the current directory)', metavar="input", dest="input", type=str)
+    parser.add_argument("-o", "--output", help='Specify a file to output the sorted MDCINT. (default: file named "sorted_out" in the current directory)', metavar="file", dest="output", type=str, default="sorted.out")
     parser.add_argument("-t", "--types", help="MDCINT types to get. range: 1-4. (e.g.) sort_mdcint -t 1 2 => get MDCINT only type 1 and 2", metavar="types", dest="types", nargs="+", type=int, choices=range(1, 5))
     parser.add_argument("-r", "--range", help="-r min max. Specify the range of indices to get (e.g.) sort_mdcint -t -10 10 => Get MDCINT only all indices are in the range from -10 to 10", metavar=("min", "max"), dest="range", nargs=2, type=int)
     parser.add_argument("-p", "--patterns", help='Specify the patterns to get (e.g.) sort_mdcint -p="++++ +-+-" => Get MDCINT only type ++++ and +-+-. + and - mean positive and negative number indices, respectively.', metavar="patterns", dest="patterns", nargs="+", type=str)
+    parser.add_argument("--dup", "--duplicate", help="Check if there are duplicate indices in the output file.", dest="dup", action="store_true")
     return parser.parse_args()
 
 
 def main():
     def get_input_filename():
-        return "debug" if args.file is None else args.file
+        return "debug" if args.input is None else args.input
 
     def get_range():
         if args.range[0] > args.range[1]:
@@ -166,7 +168,29 @@ def main():
 
     # Sort the integrals and write them to the stdout
     mdcint_values_to_sort.sort(key=lambda x: (x[0], x[1], x[2], x[3]))  # sort by i, j, k, l. Ignore float values.
-    [print("\t".join(map(str, values))) for values in mdcint_values_to_sort]
+    with open(args.output, "w") as f:
+        for values in mdcint_values_to_sort:
+            f.write("\t".join([str(x) for x in values]) + "\n")
+
+    if args.dup:
+        print("Check the duplicated integrals in the output file.")
+        is_prev_duplicate = False
+        prev_values = ""
+        prev_indices = [10**10, 10**10, 10**10, 10**10]
+        with open(args.output, "r") as f:
+            file_content = f.readlines()
+            for line in file_content:
+                words = line.split()
+                indices = [int(x) for x in words[:4]]
+                if indices != prev_indices:
+                    is_prev_duplicate = False
+                else:
+                    if not is_prev_duplicate:
+                        print(prev_values)
+                        is_prev_duplicate = True
+                    print(line.strip())
+                prev_indices = indices
+                prev_values = line.strip()
 
 
 if __name__ == "__main__":
