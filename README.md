@@ -35,7 +35,7 @@ Running this program creates a debug file.
     ./sort_mdcint -f formatted -p="++++" -r 1 10
     ```
     
-- get_diff_mdcint checks the differences between two sorted MDCINT files
+- get_diff_mdcint checks the differences between two MDCINT files
   - See get_diff_mdcint --help for more information
   
   (e.g.)
