@@ -5,7 +5,7 @@ import time
 
 all_start = time.time()
 parser = argparse.ArgumentParser("This program provides the results of a set operation on the values of two MDCINT files. Only one operation can be performed at a time.")
-parser.add_argument("-f", "--files", type=str, required=True, metavar=("A", "B"), dest="files", nargs=2, help="[required] The two MDCINT files to be used.")
+parser.add_argument("-i", "--input", type=str, required=True, metavar=("A", "B"), dest="files", nargs=2, help="[required] The two MDCINT files to be used.")
 parser.add_argument("--diff", "--get-difference", action="store_true", dest="get_difference", help="Print the get difference between the two files (i.e. A - B)", default=False)
 parser.add_argument("--ins", "--get-intersection", action="store_true", dest="get_intersection", help="Print the get intersection between the two files (i.e. A∩B)", default=False)
 parser.add_argument("--uni", "--get-union", action="store_true", dest="get_union", help="Print the get union between the two files (i.e. A∪B) ", default=False)
@@ -14,7 +14,7 @@ parser.add_argument("--debug", action="store_true", dest="debug", help="Print de
 args = parser.parse_args()
 
 if not args.get_union and not args.get_intersection and not args.get_difference and not args.get_symmetric_difference:
-    print("No operation specified. You must select one of the folloing options --diff or --uni or --sdiff. Use --help for more information.")
+    print("No operation specified. You must select one of the folloing options --diff, --ins, --uni or --sdiff. Use --help for more information.")
     exit(1)
 
 if [args.get_union, args.get_intersection, args.get_difference, args.get_symmetric_difference].count(True) > 1:
