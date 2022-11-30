@@ -32,7 +32,7 @@ Running this program creates a debug file.
   (e.g.)
     ```sh
     # Sort and output only all indices are natural numbers from 1 to 10
-    ./sort_mdcint -f formatted -p="++++" -r 1 10
+    ./sort_mdcint -i formatted -p="++++" -r 1 10
     ```
     
 - get_diff_mdcint checks the differences between two MDCINT files
@@ -41,5 +41,5 @@ Running this program creates a debug file.
   (e.g.)
   ```sh
   # Get difference between the two files (i.e. A - B)
-  ./get_diff_mdcint -f A B --diff
+  ./get_diff_mdcint -i A B --diff
   ```
