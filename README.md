@@ -24,7 +24,7 @@ git pull https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
   ```sh
   ./readmdcint
   ```
-Running this program creates a debug file.
+This program creates a file named "debug" (a formatted MDCINT file).
 
 - sort_mdcint sorts a formatted file and picks up two-electron integers of a specific type.
   - See sort_mdcint --help for more information
