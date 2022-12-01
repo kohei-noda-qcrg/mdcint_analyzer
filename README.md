@@ -31,8 +31,8 @@ This program creates a file named "debug" (a formatted MDCINT file).
 
   (e.g.)
     ```sh
-    # Sort and output only all indices are natural numbers from 1 to 10
-    ./sort_mdcint -i formatted -p="++++" -r 1 10
+    # Sort and output only all indices are natural numbers
+    ./sort_mdcint -i formatted -p="++++"
     ```
     
 - get_diff_mdcint checks the differences between two MDCINT files
