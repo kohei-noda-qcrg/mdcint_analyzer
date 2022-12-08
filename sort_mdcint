@@ -119,6 +119,13 @@ def main():
                 # Don't match any types that the user specified.
                 return False
 
+    def isfloat(value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+
     # ===================================
     # Main program
     # ===================================
@@ -163,7 +170,7 @@ def main():
             # If both conditions are satisfied, add the line to the list for sorting.
             if is_indices_within_specified_types() and is_indices_within_specified_patterns():
                 if len(words) > 4:
-                    values_float = [float(x) for x in words[4:]]
+                    values_float = [float(x) if isfloat(x) else 0 for x in words[4:]]
                 else:
                     values_float = []
                 mdcint_values_to_sort.append(values_int + values_float)
