@@ -1,13 +1,13 @@
 # MDCINT analyzer
 
 This program provides you utilities to analyze [DIRAC](http://diracprogram.org) MDCINT file.
-# Download
+## Download
 
 ```sh
-git pull https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
+git clone https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
 ```
 
-# Build
+## Build
 
 - gfortran
   ```sh
@@ -18,7 +18,7 @@ git pull https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
   make
   ```
 
-# How to use
+## How to use
 
 - First, you need to convert MDCINT file to formatted style
   ```sh
@@ -31,8 +31,8 @@ This program creates a file named "debug" (a formatted MDCINT file).
 
   (e.g.)
     ```sh
-    # Sort and output only all indices are natural numbers from 1 to 10
-    ./sort_mdcint -i formatted -p="++++" -r 1 10
+    # Sort and output only all indices are natural numbers
+    ./sort_mdcint -i formatted -p="++++"
     ```
     
 - get_diff_mdcint checks the differences between two MDCINT files
@@ -43,3 +43,10 @@ This program creates a file named "debug" (a formatted MDCINT file).
   # Get difference between the two files (i.e. A - B)
   ./get_diff_mdcint -i A B --diff
   ```
+## LICENSE
+
+- MIT LICENSE
+
+## AUTHOR
+
+- Kohei Noda
