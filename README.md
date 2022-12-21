@@ -1,6 +1,14 @@
 # MDCINT analyzer
 
 This program provides you utilities to analyze [DIRAC](http://diracprogram.org) MDCINT file.
+
+## Requirements
+
+- Python3
+- GNU Fortran or Intel Fortran
+- GNU make
+
+
 ## Download
 
 ```sh
@@ -24,7 +32,7 @@ git clone https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
   ```sh
   ./readmdcint
   ```
-This program creates a file named "debug" (a formatted MDCINT file).
+This program creates a file named "formatted_MDCINT" (a formatted MDCINT file).
 
 - sort_mdcint sorts a formatted file and picks up two-electron integers of a specific type.
   - See sort_mdcint --help for more information

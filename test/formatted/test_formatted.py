@@ -9,7 +9,7 @@ def test_formatted():
     buildcommand = "make clean && FC=gfortran make"
     subprocess.run(buildcommand, shell=True)
     reference = "ref.out"
-    output = "debug"
+    output = "formatted_MDCINT"
     os.chdir(currentpath)
     command = "../../readmdcint"
     subprocess.run(command, shell=True)
