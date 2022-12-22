@@ -5,13 +5,14 @@ import os
 def test_formatted():
     currentpath = os.path.dirname(os.path.abspath(__file__))
     os.chdir(currentpath)
-    os.chdir("../../")
-    buildcommand = "make clean && FC=gfortran make"
+    # rm formatted_MDCINT if it exists
+    if os.path.exists("formatted_MDCINT"):
+        os.remove("formatted_MDCINT")
+    buildcommand = "make clean -C ../../ && FC=gfortran make -C ../../"
     subprocess.run(buildcommand, shell=True)
     reference = "ref.out"
     output = "formatted_MDCINT"
-    os.chdir(currentpath)
-    command = "../../readmdcint"
+    command = "../../readmdcint -c"
     subprocess.run(command, shell=True)
     # Compare the output with the reference (all lines must be identical)
     with open(reference, "r") as ref, open(output, "r") as out:
