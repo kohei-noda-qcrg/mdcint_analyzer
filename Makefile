@@ -9,8 +9,8 @@ else
 FFLAGS=-fdefault-integer-8
 endif
 endif
-EXE = readmdcint
-SRC = readmdcint.f90
+EXE = convert_mdcint
+SRC = convert_mdcint.f90
 
 $(EXE): $(SRC)
 	$(FC) $(FFLAGS) -o $(EXE) $(SRC)

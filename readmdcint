@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+
+import argparse
+from subprocess import Popen
+import os
+
+parser = argparse.ArgumentParser(description="Read MDCINT file")
+parser.add_argument(
+    "-c",
+    "--combine",
+    help="Combine multiple MDCINT files into one formatted file",
+    action="store_true",
+    default=False,
+    dest="combine",
+)
+args = parser.parse_args()
+user_submitted_dir = os.getcwd()
+currrent_dir = os.path.dirname(os.path.abspath(__file__))
+print(
+    f"Current directory: {currrent_dir}, user submitted directory: {user_submitted_dir}"
+)
+
+if args.combine:
+    print("Combine multiple MDCINT files into one formatted file")
+    os.chdir(user_submitted_dir)
+    command = "{}/convert_mdcint --combine".format(currrent_dir)
+else:
+    print("Read MDCINT file")
+    command = "{}/convert_mdcint".format(currrent_dir)
+
+p = Popen(command, shell=True)
+p.wait()
+print(p.returncode)
