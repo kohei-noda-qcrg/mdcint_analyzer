@@ -16,9 +16,6 @@ parser.add_argument(
 args = parser.parse_args()
 user_submitted_dir = os.getcwd()
 currrent_dir = os.path.dirname(os.path.abspath(__file__))
-print(
-    f"Current directory: {currrent_dir}, user submitted directory: {user_submitted_dir}"
-)
 
 if args.combine:
     print("Combine multiple MDCINT files into one formatted file")

@@ -1,6 +1,6 @@
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Program readmdcint
+Program convert_mdcint
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -15,7 +15,7 @@ Program readmdcint
 
     call get_command_argument(1, argv)
     if (trim(argv) == "--combine") then
-        print *, "Combine all MDCINT files into one file"
+        print *, "Combine all MDCINT files into one file (--combine option is detected)"
         combine = .true.
     end if
     inquire (file="MDCINT", exist=exists)
@@ -73,7 +73,7 @@ Program readmdcint
                 exit
             end if
             if (stat < 0) then
-                print *, "End of file"
+                print *, "End of file: ", trim(mdcint_filename)
                 exit
             else if (stat > 0) then
                 print *, "Error while reading file. iostat = ", stat
@@ -136,4 +136,4 @@ contains
             output_filename = "formatted_MDCINT"//trim(adjustl(chr_idx))
         end if
     end subroutine get_filename
-end Program readmdcint
+end Program convert_mdcint
