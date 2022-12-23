@@ -1,5 +1,7 @@
 # MDCINT analyzer
 
+[![test](https://github.com/kohei-noda-qcrg/mdcint_analyzer/actions/workflows/test.yml/badge.svg)](https://github.com/kohei-noda-qcrg/mdcint_analyzer/actions/workflows/test.yml)
+
 This program provides you utilities to analyze [DIRAC](http://diracprogram.org) MDCINT file.
 
 ## Requirements
@@ -33,6 +35,14 @@ git clone https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
   ./readmdcint
   ```
 This program creates a file named "formatted_MDCINT" (a formatted MDCINT file).
+
+  - If you run DIRAC in MPI parallel and have multiple MDCINT files (i.e. MDCINT, MDCINXXXX1, ... files) and you want to combine them into one formatted file, use the runtime options -c or --combine
+  
+  ```sh
+  ./readmdcint -c
+  # or
+  ./readmdcint --combine
+  ```
 
 - sort_mdcint sorts a formatted file and picks up two-electron integers of a specific type.
   - See sort_mdcint --help for more information
