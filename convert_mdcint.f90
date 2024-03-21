@@ -185,8 +185,13 @@ contains
                     exit
                 end if
                 write_file_idx = mod(cnt, split_num)
-                write(mdcint_files_unit(write_file_idx+1)) ikr, jkr, nz, (indk(inz), indl(inz), inz=1, nz), &
-                (rklr(inz), inz=1, nz)
+                if (realonly) then
+                    write(mdcint_files_unit(write_file_idx+1)) ikr, jkr, nz, (indk(inz), indl(inz), inz=1, nz), &
+                    (rklr(inz), inz=1, nz)
+                else
+                    write(mdcint_files_unit(write_file_idx+1)) ikr, jkr, nz, (indk(inz), indl(inz), inz=1, nz), &
+                    (rklr(inz), rkli(inz), inz=1, nz)
+                end if
                 cnt = cnt + 1
             end do
 
