@@ -30,6 +30,16 @@ git clone https://github.com/kohei-noda-qcrg/mdcint_analyzer.git
 
 ## How to use
 
+### Split MDCINT file
+
+- You need to use splitmdcint script to split MDCINT files into multiple files.
+  - Splitted files are named as MDCINT, MDCINXXXX1, MDCINXXXX2, ... and saved in the $PWD/split directory.
+  ```sh
+  ./splitmdcint -n 4  # Split MDCINT, MDCINXXXX1, ... files into 4 files
+  ```
+
+### Analyze MDCINT file
+
 - First, you need to convert MDCINT file to formatted style
   ```sh
   ./readmdcint
