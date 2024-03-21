@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+
+import argparse
+from subprocess import Popen
+import os
+
+parser = argparse.ArgumentParser(description="Split MDCINT files")
+parser.add_argument(
+    "-n", "--num-split", help="Number of files to split into", type=int, default=1, dest="num_split"
+)
+args = parser.parse_args()
+user_submitted_dir = os.getcwd()
+currrent_dir = os.path.dirname(os.path.abspath(__file__))
+
+command = "{}/convert_mdcint --split {}".format(currrent_dir, args.num_split)
+
+p = Popen(command, shell=True)
+p.wait()
+print(p.returncode)
