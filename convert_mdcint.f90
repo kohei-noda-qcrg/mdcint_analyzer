@@ -71,12 +71,12 @@ contains
         rewind (unit_num)
         read (unit_num)  ! Skip the first line
         read (unit_num, iostat=stat) ikr, jkr, nz, (indk(inz), indl(inz), inz=1, nz), (rklr(inz), rkli(inz), inz=1, nz)
-        print *, "realonly = ", realonly
         if (stat /= 0) then
             is_realonly = .true.
         else
             is_realonly = .false.
         end if
+        print *, "realonly = ", realonly
     end function is_realonly
 
     subroutine dump_formatted_mdcint
